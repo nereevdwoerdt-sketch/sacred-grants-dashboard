@@ -46,13 +46,17 @@ export default function Sidebar({ user, profile }) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow bg-[#312117] overflow-y-auto">
           {/* Logo */}
-          <div className="flex items-center justify-center h-20 px-6 bg-[#2a1c14] border-b border-[#4a3828]">
-            <Link href="/dashboard" className="flex items-center">
+          <div className="flex items-center justify-center h-24 px-4 bg-[#2a1c14] border-b border-[#4a3828]">
+            <Link href="/dashboard" className="flex items-center gap-3">
               <img
-                src="/images/sacred-logo.png"
-                alt="Sacred Foundation"
-                className="h-12 w-auto object-contain"
+                src="/images/sacred-icon.png"
+                alt="Sacred"
+                className="h-14 w-14 object-contain"
               />
+              <div className="flex flex-col">
+                <span className="text-xl font-serif font-bold text-[#F5F3E6] tracking-wide">SACRED</span>
+                <span className="text-sm font-medium text-[#D39D33] tracking-widest">FOUNDATION</span>
+              </div>
             </Link>
           </div>
 
