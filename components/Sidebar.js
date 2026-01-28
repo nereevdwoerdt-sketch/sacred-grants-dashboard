@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -49,13 +48,10 @@ export default function Sidebar({ user, profile }) {
           {/* Logo */}
           <div className="flex items-center justify-center h-20 px-6 bg-[#2a1c14] border-b border-[#4a3828]">
             <Link href="/dashboard" className="flex items-center">
-              <Image
+              <img
                 src="/images/sacred-logo.png"
                 alt="Sacred Foundation"
-                width={180}
-                height={50}
-                className="h-12 w-auto"
-                priority
+                className="h-12 w-auto object-contain"
               />
             </Link>
           </div>
