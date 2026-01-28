@@ -46,17 +46,14 @@ export default function Sidebar({ user, profile }) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow bg-[#312117] overflow-y-auto">
           {/* Logo */}
-          <div className="flex items-center justify-center h-24 px-4 bg-[#2a1c14] border-b border-[#4a3828]">
-            <Link href="/dashboard" className="flex items-center gap-3">
+          <div className="flex items-center justify-center h-28 px-4 bg-[#2a1c14] border-b border-[#4a3828]">
+            <Link href="/dashboard" className="flex flex-col items-center gap-1">
               <img
-                src="/images/sacred-icon.png"
+                src="/images/sacred-text.png"
                 alt="Sacred"
-                className="h-14 w-14 object-contain"
+                className="h-10 w-auto object-contain"
               />
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold text-[#F5F3E6] tracking-wider" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>SACRED</span>
-                <span className="text-xs font-semibold text-[#D39D33] tracking-[0.25em]" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>FOUNDATION</span>
-              </div>
+              <span className="text-sm font-semibold text-[#D39D33] tracking-[0.3em]" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>FOUNDATION</span>
             </Link>
           </div>
 
