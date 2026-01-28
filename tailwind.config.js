@@ -42,7 +42,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Nunito Sans', 'system-ui', 'sans-serif'],
-        serif: ['Quincy', 'Georgia', 'serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
       },
       borderRadius: {
         'sacred': '1rem',

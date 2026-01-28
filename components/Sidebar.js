@@ -54,8 +54,8 @@ export default function Sidebar({ user, profile }) {
                 className="h-14 w-14 object-contain"
               />
               <div className="flex flex-col">
-                <span className="text-xl font-serif font-bold text-[#F5F3E6] tracking-wide">SACRED</span>
-                <span className="text-sm font-medium text-[#D39D33] tracking-widest">FOUNDATION</span>
+                <span className="text-2xl font-bold text-[#F5F3E6] tracking-wider" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>SACRED</span>
+                <span className="text-xs font-semibold text-[#D39D33] tracking-[0.25em]" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>FOUNDATION</span>
               </div>
             </Link>
           </div>

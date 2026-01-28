@@ -1,31 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Quincy font - using similar serif as fallback */
-@font-face {
-  font-family: 'Quincy';
-  src: local('Georgia');
-  font-weight: 500;
-}
 
 :root {
   --sacred-brown: #312117;
   --sacred-cream: #F5F3E6;
   --sacred-gold: #D39D33;
   --sacred-green: #11472C;
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
 }
 
 body {
-  font-family: 'Nunito Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   background-color: var(--sacred-cream);
   color: var(--sacred-brown);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   color: var(--sacred-brown);
 }
