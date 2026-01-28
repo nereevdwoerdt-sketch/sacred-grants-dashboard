@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sacred-orange: #d4753d;
+  --sacred-brown: #6b3324;
+  --earth-cream: #f6f5f0;
+  --earth-tan: #d3cfb6;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--earth-cream);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--earth-tan);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b9b28c;
+}
+
+/* Animation classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}
+
+/* Grant card urgency indicators */
+.urgency-urgent {
+  border-left: 4px solid #ef4444;
+}
+
+.urgency-high {
+  border-left: 4px solid #f59e0b;
+}
+
+.urgency-medium {
+  border-left: 4px solid #3b82f6;
+}
+
+.urgency-low {
+  border-left: 4px solid #9ca3af;
+}
+
+/* Status badges */
+.status-not-started {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.status-researching {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-drafting {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-submitted {
+  background-color: #e9d5ff;
+  color: #7c3aed;
+}
+
+.status-awaiting {
+  background-color: #ffedd5;
+  color: #ea580c;
+}
+
+.status-successful {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.status-unsuccessful {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* Category badges */
+.category-pty-ltd {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.category-nfp {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.category-individual {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.category-nomination {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .print-break {
+    page-break-before: always;
+  }
+}

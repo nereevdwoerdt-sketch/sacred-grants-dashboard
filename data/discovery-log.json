@@ -1,0 +1,684 @@
+{
+  "runs": [
+    {
+      "timestamp": "2026-01-28T14:04:39.844Z",
+      "sourcesChecked": 12,
+      "newDiscoveries": 5,
+      "totalInFeed": 5,
+      "errors": 0
+    },
+    {
+      "timestamp": "2026-01-28T17:48:51.996Z",
+      "sourcesChecked": 29,
+      "pagesScanned": 48,
+      "newDiscoveries": 34,
+      "totalInFeed": 39,
+      "errors": 22,
+      "topMatches": [
+        {
+          "name": "Performing Arts Fund NL",
+          "score": 12,
+          "categories": [
+            "arts",
+            "geographic"
+          ]
+        },
+        {
+          "name": "Creative Europe CULTURE strand",
+          "score": 10,
+          "categories": [
+            "cultural",
+            "arts",
+            "geographic"
+          ]
+        },
+        {
+          "name": "Grantmaking",
+          "score": 9,
+          "categories": [
+            "indigenous",
+            "arts",
+            "business"
+          ]
+        },
+        {
+          "name": "Our Mission",
+          "score": 8,
+          "categories": [
+            "core",
+            "indigenous",
+            "arts"
+          ]
+        },
+        {
+          "name": "An initiative of the European Festivals Association that offers emerging artists a platform to develop their careers on an international level through festivals.",
+          "score": 6,
+          "categories": [
+            "arts",
+            "geographic"
+          ]
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-01-28T18:02:31.056Z",
+      "sourcesChecked": 80,
+      "pagesScanned": 101,
+      "newDiscoveries": 0,
+      "totalInFeed": 78,
+      "errors": 39,
+      "errorDetails": [
+        {
+          "url": "https://www.mondriaanfonds.nl/en/grants/visual-artists/",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://www.mondriaanfonds.nl/en/grants/cultural-heritage/",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://www.doen.nl/en/what-we-do",
+          "error": "HTTP 403"
+        },
+        {
+          "url": "https://www.doen.nl/en/what-we-do/green-and-inclusive-economy",
+          "error": "HTTP 403"
+        },
+        {
+          "url": "https://www.doen.nl/en/what-we-do/culture-and-cohesion",
+          "error": "HTTP 403"
+        },
+        {
+          "url": "https://stimuleringsfonds.nl/en/grants/open-call/",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://cultuurparticipatie.nl/regelingen",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://www.oranjefonds.nl/fondsen-background",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://www.oranjefonds.nl/voor-aanvragers",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://www.triodos.com/en/triodos-foundation",
+          "error": "HTTP 404"
+        }
+      ],
+      "topMatches": [],
+      "byRegion": {
+        "nl": 0,
+        "eu": 0,
+        "au": 0,
+        "pe": 0,
+        "int": 0
+      }
+    }
+  ],
+  "sourceHealth": {
+    "fonds-podiumkunsten": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "mondriaan-fund": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "doen-foundation": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "stimuleringsfonds": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "cultuurparticipatie": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "oranjefonds": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "triodos-foundation": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "prins-bernhard": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "vsbfonds": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "fonds21": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "haella-stichting": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "adessium": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "ars-donandi": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "bng-cultuurfonds": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "kf-heinfonds": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "nl-subsidies": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "democratie-media": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "janivo": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "getaddrinfo ENOTFOUND www.janivo.nl",
+      "lastGrants": 0
+    },
+    "ammodo": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "lira": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "eu-funding-portal": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "creative-europe": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "culture-moves-europe": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "ecf": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "effea": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "erasmus-culture": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "horizon-europe": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "life-programme": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "cerv": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "interreg": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "eit-food": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "eit-culture": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "eu-social-fund": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "robert-bosch": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "allianz-foundation": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "grantconnect": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "creative-australia": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "screen-australia": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "business-vic": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "ian-potter": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "creative-vic": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "music-vic": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "city-melbourne": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "austrade-emdg": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "philanthropy-au": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "australia-council": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "myer-foundation": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "perpetual-impact": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "paul-ramsay": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "melbourne-lord-mayor": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "prince-claus": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "cultural-survival": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "iaf": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 404",
+      "lastGrants": 0
+    },
+    "rainforest-trust": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "first-peoples": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "nia-tero": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "swift-foundation": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "amazon-watch": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "christensen-fund": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "global-greengrants": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "forest-peoples": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "iucn-nl": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "ford-foundation": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "ashoka": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 403",
+      "lastGrants": 0
+    },
+    "skoll": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "open-society": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "rockefeller": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "hewlett": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "macarthur": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "omidyar": {
+      "successes": 0,
+      "failures": 1,
+      "lastSuccess": null,
+      "lastError": "HTTP 403",
+      "lastGrants": 0
+    },
+    "echoing-green": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "global-fund-women": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "un-democracy-fund": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "gfw": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "porticus": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "oak-foundation": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "wellcome-trust": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "fundsforngos": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "devex-funding": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    },
+    "grantwatch": {
+      "successes": 1,
+      "failures": 0,
+      "lastSuccess": "2026-01-28T18:02:31.056Z",
+      "lastError": null,
+      "lastGrants": 0
+    }
+  }
+}
