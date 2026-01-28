@@ -8,18 +8,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Sacred Taste brand colors
         sacred: {
-          50: '#fdf8f3',
-          100: '#f9ebe0',
-          200: '#f2d5bc',
-          300: '#e8b78f',
-          400: '#dd925d',
-          500: '#d4753d',
-          600: '#c55f32',
-          700: '#a4492b',
-          800: '#843c29',
-          900: '#6b3324',
-          950: '#3a1811',
+          brown: '#312117',      // Primary deep brown
+          cream: '#F5F3E6',      // Background cream/beige
+          gold: '#D39D33',       // Accent gold
+          green: '#11472C',      // Dark green
+          50: '#faf9f5',
+          100: '#f5f3e6',        // Same as cream
+          200: '#e8e4d1',
+          300: '#d4cdb3',
+          400: '#beb28f',
+          500: '#a99a6f',
+          600: '#958559',
+          700: '#7a6c4a',
+          800: '#655940',
+          900: '#544a37',
+          950: '#312117',        // Same as brown
         },
         earth: {
           50: '#f6f5f0',
@@ -36,8 +41,13 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['Nunito Sans', 'system-ui', 'sans-serif'],
+        serif: ['Quincy', 'Georgia', 'serif'],
+      },
+      borderRadius: {
+        'sacred': '1rem',
+        'sacred-lg': '2rem',
+        'sacred-xl': '5rem',
       },
     },
   },

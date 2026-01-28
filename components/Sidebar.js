@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -44,11 +45,18 @@ export default function Sidebar({ user, profile }) {
     <>
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col flex-grow bg-sacred-900 overflow-y-auto">
+        <div className="flex flex-col flex-grow bg-[#312117] overflow-y-auto">
           {/* Logo */}
-          <div className="flex items-center h-16 px-6 bg-sacred-950">
+          <div className="flex items-center justify-center h-20 px-6 bg-[#2a1c14] border-b border-[#4a3828]">
             <Link href="/dashboard" className="flex items-center">
-              <span className="text-xl font-serif font-bold text-white">Sacred Foundation</span>
+              <Image
+                src="/images/sacred-logo.png"
+                alt="Sacred Foundation"
+                width={180}
+                height={50}
+                className="h-12 w-auto"
+                priority
+              />
             </Link>
           </div>
 
@@ -62,10 +70,10 @@ export default function Sidebar({ user, profile }) {
                   key={item.name}
                   href={item.href}
                   className={`
-                    flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors
+                    flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all
                     ${isActive
-                      ? 'bg-sacred-800 text-white'
-                      : 'text-sacred-200 hover:bg-sacred-800 hover:text-white'}
+                      ? 'bg-[#D39D33] text-white'
+                      : 'text-[#d4cdb3] hover:bg-[#4a3828] hover:text-white'}
                   `}
                 >
                   <item.icon className="w-5 h-5 mr-3" />
@@ -75,23 +83,30 @@ export default function Sidebar({ user, profile }) {
             })}
           </nav>
 
+          {/* Grants summary */}
+          <div className="px-4 py-4 mx-4 mb-4 bg-[#4a3828] rounded-xl">
+            <p className="text-xs text-[#d4cdb3] uppercase tracking-wider mb-2">Total Potential</p>
+            <p className="text-2xl font-serif font-bold text-[#D39D33]">€2.68M+</p>
+            <p className="text-xs text-[#d4cdb3] mt-1">78 grants tracked</p>
+          </div>
+
           {/* User section */}
-          <div className="flex-shrink-0 p-4 border-t border-sacred-800">
+          <div className="flex-shrink-0 p-4 border-t border-[#4a3828]">
             <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-sacred-700 flex items-center justify-center text-white font-medium">
-                {profile?.full_name?.charAt(0) || user?.email?.charAt(0) || 'U'}
+              <div className="w-10 h-10 rounded-full bg-[#D39D33] flex items-center justify-center text-white font-medium">
+                {profile?.full_name?.charAt(0) || user?.email?.charAt(0) || 'S'}
               </div>
               <div className="ml-3 flex-1 min-w-0">
                 <p className="text-sm font-medium text-white truncate">
-                  {profile?.full_name || 'User'}
+                  {profile?.full_name || 'Sacred Team'}
                 </p>
-                <p className="text-xs text-sacred-300 truncate">
-                  {user?.email}
+                <p className="text-xs text-[#d4cdb3] truncate">
+                  {user?.email || 'grants@sacredtaste.com'}
                 </p>
               </div>
               <button
                 onClick={handleLogout}
-                className="ml-2 p-2 text-sacred-300 hover:text-white hover:bg-sacred-800 rounded-lg transition-colors"
+                className="ml-2 p-2 text-[#d4cdb3] hover:text-white hover:bg-[#4a3828] rounded-lg transition-colors"
                 title="Sign out"
               >
                 <LogOut className="w-5 h-5" />
@@ -102,7 +117,7 @@ export default function Sidebar({ user, profile }) {
       </div>
 
       {/* Mobile bottom navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-earth-200 z-50">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#312117] border-t border-[#4a3828] z-50">
         <nav className="flex justify-around py-2">
           {navigation.slice(0, 5).map((item) => {
             const isActive = pathname === item.href ||
@@ -113,7 +128,7 @@ export default function Sidebar({ user, profile }) {
                 href={item.href}
                 className={`
                   flex flex-col items-center p-2 text-xs
-                  ${isActive ? 'text-sacred-600' : 'text-earth-500'}
+                  ${isActive ? 'text-[#D39D33]' : 'text-[#d4cdb3]'}
                 `}
               >
                 <item.icon className="w-5 h-5 mb-1" />

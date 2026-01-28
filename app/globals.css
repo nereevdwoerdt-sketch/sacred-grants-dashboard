@@ -1,23 +1,86 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Quincy font - using similar serif as fallback */
+@font-face {
+  font-family: 'Quincy';
+  src: local('Georgia');
+  font-weight: 500;
+}
+
 :root {
-  --sacred-orange: #d4753d;
-  --sacred-brown: #6b3324;
-  --earth-cream: #f6f5f0;
-  --earth-tan: #d3cfb6;
+  --sacred-brown: #312117;
+  --sacred-cream: #F5F3E6;
+  --sacred-gold: #D39D33;
+  --sacred-green: #11472C;
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--earth-cream);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  background-color: var(--sacred-cream);
+  color: var(--sacred-brown);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  color: var(--sacred-brown);
+}
+
+/* Sacred brand buttons */
+.btn-sacred {
+  background-color: var(--sacred-brown);
+  color: var(--sacred-cream);
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid var(--sacred-brown);
+}
+
+.btn-sacred:hover {
+  background-color: transparent;
+  color: var(--sacred-brown);
+}
+
+.btn-sacred-outline {
+  background-color: transparent;
+  color: var(--sacred-brown);
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid var(--sacred-brown);
+}
+
+.btn-sacred-outline:hover {
+  background-color: var(--sacred-brown);
+  color: var(--sacred-cream);
+}
+
+.btn-sacred-gold {
+  background-color: var(--sacred-gold);
+  color: white;
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid var(--sacred-gold);
+}
+
+.btn-sacred-gold:hover {
+  background-color: #b8882c;
+}
+
+/* Sacred card styling */
+.card-sacred {
+  background-color: white;
+  border: 1px solid var(--sacred-brown);
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 /* Custom scrollbar */
@@ -27,17 +90,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--sacred-cream);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--earth-tan);
+  background: #d4cdb3;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b9b28c;
+  background: var(--sacred-brown);
 }
 
 /* Animation classes */
@@ -69,83 +132,83 @@ h1, h2, h3, h4, h5, h6 {
   animation: pulse-slow 2s ease-in-out infinite;
 }
 
-/* Grant card urgency indicators */
+/* Grant card urgency indicators - Sacred brand colors */
 .urgency-urgent {
-  border-left: 4px solid #ef4444;
+  border-left: 4px solid #dc2626;
 }
 
 .urgency-high {
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid var(--sacred-gold);
 }
 
 .urgency-medium {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--sacred-green);
 }
 
 .urgency-low {
-  border-left: 4px solid #9ca3af;
+  border-left: 4px solid #d4cdb3;
 }
 
-/* Status badges */
+/* Status badges - Sacred themed */
 .status-not-started {
-  background-color: #f3f4f6;
-  color: #6b7280;
+  background-color: #f5f3e6;
+  color: #665940;
 }
 
 .status-researching {
-  background-color: #dbeafe;
-  color: #1d4ed8;
+  background-color: #e8f4ec;
+  color: var(--sacred-green);
 }
 
 .status-drafting {
-  background-color: #fef3c7;
-  color: #d97706;
+  background-color: #fef3dc;
+  color: #8b6914;
 }
 
 .status-submitted {
-  background-color: #e9d5ff;
-  color: #7c3aed;
+  background-color: #f0e6f5;
+  color: #6b3a7d;
 }
 
 .status-awaiting {
-  background-color: #ffedd5;
-  color: #ea580c;
+  background-color: #fef0e6;
+  color: #9a5b2d;
 }
 
 .status-successful {
-  background-color: #dcfce7;
-  color: #16a34a;
+  background-color: #e6f5ec;
+  color: var(--sacred-green);
 }
 
 .status-unsuccessful {
-  background-color: #fee2e2;
-  color: #dc2626;
+  background-color: #fde8e8;
+  color: #991b1b;
 }
 
-/* Category badges */
+/* Category badges - Sacred themed */
 .category-pty-ltd {
-  background-color: #dcfce7;
-  color: #166534;
+  background-color: #e6f5ec;
+  color: var(--sacred-green);
 }
 
 .category-nfp {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: #fef3dc;
+  color: #8b6914;
 }
 
 .category-individual {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: #e8f0f5;
+  color: #1e4a6d;
 }
 
 .category-nomination {
-  background-color: #f3e8ff;
-  color: #6b21a8;
+  background-color: #f5e6f0;
+  color: #6b3a5d;
 }
 
 /* Modal backdrop */
 .modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(49, 33, 23, 0.6);
   backdrop-filter: blur(4px);
 }
 
@@ -155,10 +218,12 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 20px;
   right: 20px;
   padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(49, 33, 23, 0.15);
   z-index: 1000;
   animation: slideIn 0.3s ease-out;
+  background-color: white;
+  border: 1px solid var(--sacred-brown);
 }
 
 @keyframes slideIn {
@@ -174,7 +239,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Loading skeleton */
 .skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #f5f3e6 25%, #e8e4d1 50%, #f5f3e6 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite;
 }
@@ -186,6 +251,31 @@ h1, h2, h3, h4, h5, h6 {
   100% {
     background-position: -200% 0;
   }
+}
+
+/* Region flag badges */
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #f5f3e6;
+  border: 1px solid var(--sacred-brown);
+}
+
+/* NEW badge */
+.badge-new {
+  background-color: var(--sacred-green);
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Print styles */
