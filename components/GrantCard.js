@@ -47,6 +47,7 @@ export default function GrantCard({ grant, progress, onClick, onUpdateProgress, 
       case 'individual': return User
       case 'nfp': return Users
       case 'nomination': return Award
+      case 'discovered': return Star
       default: return Building2
     }
   }

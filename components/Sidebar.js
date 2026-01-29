@@ -14,12 +14,14 @@ import {
   Bell,
   CheckSquare,
   Download,
-  TrendingUp
+  TrendingUp,
+  Sparkles
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'All Grants', href: '/dashboard/grants', icon: FileText },
+  { name: 'New Discoveries', href: '/dashboard/discoveries', icon: Sparkles },
   { name: 'Calendar', href: '/dashboard/calendar', icon: Calendar },
   { name: 'Progress', href: '/dashboard/progress', icon: TrendingUp },
   { name: 'Setup Steps', href: '/dashboard/setup', icon: CheckSquare },
@@ -46,14 +48,17 @@ export default function Sidebar({ user, profile }) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow bg-[#312117] overflow-y-auto">
           {/* Logo */}
-          <div className="flex items-center justify-center h-28 px-4 bg-[#2a1c14] border-b border-[#4a3828]">
-            <Link href="/dashboard" className="flex flex-col items-center gap-1">
+          <div className="flex items-center justify-center h-36 px-4 bg-[#2a1c14] border-b border-[#4a3828]">
+            <Link href="/dashboard" className="flex flex-col items-center gap-2">
               <img
-                src="/images/sacred-text.png"
+                src="/images/sacred-icon.png"
                 alt="Sacred"
-                className="h-10 w-auto object-contain"
+                className="h-14 w-auto object-contain"
               />
-              <span className="text-sm font-semibold text-[#D39D33] tracking-[0.3em]" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>FOUNDATION</span>
+              <div className="flex flex-col items-center">
+                <span className="text-xl font-semibold text-[#D39D33] tracking-[0.2em]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>SACRED</span>
+                <span className="text-xs font-medium text-[#D39D33] tracking-[0.3em]" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>FOUNDATION</span>
+              </div>
             </Link>
           </div>
 

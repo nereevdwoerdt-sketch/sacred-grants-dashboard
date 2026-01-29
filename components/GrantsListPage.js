@@ -45,6 +45,8 @@ export default function GrantsListPage({ grants, categories, progress, userId })
     if (activeCategory !== 'all') {
       if (activeCategory === 'urgent') {
         result = result.filter(g => g.urgency === 'urgent')
+      } else if (activeCategory === 'discovered') {
+        result = result.filter(g => g.isDiscovered === true)
       } else {
         result = result.filter(g => g.category === activeCategory)
       }

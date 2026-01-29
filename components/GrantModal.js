@@ -166,35 +166,58 @@ END:VCALENDAR`
             </section>
 
             {/* Why Sacred fits */}
-            <section className="mb-6 p-4 bg-sacred-50 rounded-lg border border-sacred-200">
-              <h3 className="text-sm font-semibold text-sacred-700 uppercase tracking-wide mb-2">
-                Why Sacred Foundation Fits
-              </h3>
-              <p className="text-earth-700">{grant.whySacredFits}</p>
-            </section>
+            {grant.whySacredFits && (
+              <section className="mb-6 p-4 bg-sacred-50 rounded-lg border border-sacred-200">
+                <h3 className="text-sm font-semibold text-sacred-700 uppercase tracking-wide mb-2">
+                  {grant.isDiscovered ? 'Why This Matches' : 'Why Sacred Foundation Fits'}
+                </h3>
+                <p className="text-earth-700">{grant.whySacredFits}</p>
+              </section>
+            )}
+
+            {/* Source info for discovered grants */}
+            {grant.isDiscovered && grant.sourceName && (
+              <section className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="text-sm font-semibold text-blue-700 uppercase tracking-wide mb-2">
+                  Source
+                </h3>
+                <p className="text-earth-700">
+                  Discovered from <strong>{grant.sourceName}</strong>
+                  {grant.relevanceScore && (
+                    <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-sm">
+                      Relevance: {grant.relevanceScore}
+                    </span>
+                  )}
+                </p>
+              </section>
+            )}
 
             {/* Eligibility */}
-            <section className="mb-6">
-              <h3 className="text-sm font-semibold text-earth-500 uppercase tracking-wide mb-2">
-                Eligibility Requirements
-              </h3>
-              <ul className="space-y-2">
-                {grant.eligibility.map((req, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-earth-700">{req}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
+            {grant.eligibility && grant.eligibility.length > 0 && (
+              <section className="mb-6">
+                <h3 className="text-sm font-semibold text-earth-500 uppercase tracking-wide mb-2">
+                  Eligibility Requirements
+                </h3>
+                <ul className="space-y-2">
+                  {grant.eligibility.map((req, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-earth-700">{req}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* Action Required */}
-            <section className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-              <h3 className="text-sm font-semibold text-yellow-700 uppercase tracking-wide mb-2">
-                Action Required
-              </h3>
-              <p className="text-earth-700 font-medium">{grant.actionRequired}</p>
-            </section>
+            {grant.actionRequired && (
+              <section className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <h3 className="text-sm font-semibold text-yellow-700 uppercase tracking-wide mb-2">
+                  Action Required
+                </h3>
+                <p className="text-earth-700 font-medium">{grant.actionRequired}</p>
+              </section>
+            )}
 
             {/* Progress Tracking */}
             <section className="mb-6 p-4 bg-earth-50 rounded-lg border border-earth-200">
