@@ -110,9 +110,9 @@ END:VCALENDAR`
 
       {/* Modal */}
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+        <div className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col">
           {/* Header */}
-          <div className={`p-6 border-b border-earth-200 urgency-${grant.urgency}`}>
+          <div className={`p-6 border-b border-earth-200 urgency-${grant.urgency} flex-shrink-0`}>
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -159,7 +159,7 @@ END:VCALENDAR`
           </div>
 
           {/* Content */}
-          <div className="p-6 overflow-y-auto max-h-[60vh]">
+          <div className="p-6 overflow-y-auto flex-1 min-h-0">
             {/* Description */}
             <section className="mb-6">
               <h3 className="text-sm font-semibold text-earth-500 uppercase tracking-wide mb-2">
@@ -350,7 +350,7 @@ END:VCALENDAR`
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-earth-200 bg-earth-50 flex flex-wrap gap-3">
+          <div className="p-6 border-t border-earth-200 bg-earth-50 flex flex-wrap gap-3 flex-shrink-0">
             <a
               href={grant.applyUrl}
               target="_blank"
