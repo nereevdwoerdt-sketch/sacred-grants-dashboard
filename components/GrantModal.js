@@ -15,8 +15,11 @@ import {
   Calendar,
   Save,
   Download,
-  Bell
+  Bell,
+  Maximize2
 } from 'lucide-react'
+import Link from 'next/link'
+import ShareButton from './ShareButton'
 
 export default function GrantModal({ grant, progress, onClose, onUpdateProgress, userId }) {
   const [status, setStatus] = useState(progress?.status || 'not-started')
@@ -364,6 +367,14 @@ END:VCALENDAR`
               <Calendar className="w-5 h-5" />
               Add to Calendar
             </button>
+            <ShareButton grant={grant} />
+            <Link
+              href={`/grants/${grant.id}`}
+              className="flex items-center justify-center gap-2 px-4 py-3 border border-earth-300 rounded-lg hover:bg-earth-100 transition-colors"
+            >
+              <Maximize2 className="w-5 h-5" />
+              Full Page
+            </Link>
           </div>
         </div>
       </div>
