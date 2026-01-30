@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react'
 import GrantsListPage from '@/components/GrantsListPage'
 import { grants as staticGrants, categories as staticCategories } from '@/lib/grants-data'
 
+// Filter to only show approved grants
+const approvedGrants = staticGrants.filter(g => g.approved === true)
+
 export default function GrantsPage() {
-  const [allGrants, setAllGrants] = useState(staticGrants)
+  const [allGrants, setAllGrants] = useState(approvedGrants)
   const [categories, setCategories] = useState(staticCategories)
   const [loading, setLoading] = useState(true)
 
@@ -16,8 +19,8 @@ export default function GrantsPage() {
         const discoveredGrants = await response.json()
 
         if (Array.isArray(discoveredGrants) && discoveredGrants.length > 0) {
-          // Combine static and discovered grants
-          setAllGrants([...discoveredGrants, ...staticGrants])
+          // Combine approved static grants and discovered grants
+          setAllGrants([...discoveredGrants, ...approvedGrants])
 
           // Add "Discovered" category
           const discoveredCategory = {

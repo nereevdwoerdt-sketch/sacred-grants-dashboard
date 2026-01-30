@@ -19,6 +19,8 @@ import {
   Sparkles
 } from 'lucide-react'
 import { regions } from '@/lib/grants-data'
+import { useGrantStatus } from '@/lib/useGrantStatus'
+import { GrantGridSkeleton, StatsGridSkeleton } from './GrantCardSkeleton'
 
 export default function DashboardContent({
   grants,
@@ -38,7 +40,17 @@ export default function DashboardContent({
   const [grantProgress, setGrantProgress] = useState({})
   const [favorites, setFavorites] = useState([])
   const [dismissed, setDismissed] = useState([])
-  const [archived, setArchived] = useState([])
+
+  // Grant status management (archive/delete) via Supabase
+  const {
+    archiveGrant,
+    deleteGrant,
+    restoreGrant,
+    isHidden,
+    getStatus,
+    archivedCount,
+    loading: statusLoading
+  } = useGrantStatus(userId)
 
   // Load progress, favorites, and dismissed from localStorage on mount
   useEffect(() => {
@@ -56,30 +68,8 @@ export default function DashboardContent({
     if (savedDismissed) {
       setDismissed(JSON.parse(savedDismissed))
     }
-
-    const savedArchived = localStorage.getItem('sacred-grant-archived')
-    if (savedArchived) {
-      setArchived(JSON.parse(savedArchived))
-    }
   }, [])
 
-  // Auto-archive expired grants
-  useEffect(() => {
-    const today = new Date()
-    const expiredIds = grants
-      .filter(g => {
-        if (g.deadline === 'rolling' || g.deadline === 'various') return false
-        const deadline = parseISO(g.deadline)
-        return isBefore(deadline, today) && !archived.includes(g.id)
-      })
-      .map(g => g.id)
-
-    if (expiredIds.length > 0) {
-      const newArchived = [...new Set([...archived, ...expiredIds])]
-      setArchived(newArchived)
-      localStorage.setItem('sacred-grant-archived', JSON.stringify(newArchived))
-    }
-  }, [grants])
 
   // Get progress for a grant
   const getProgress = (grantId) => grantProgress[grantId]
@@ -121,10 +111,10 @@ export default function DashboardContent({
     } else if (activeView === 'favorites') {
       result = result.filter(g => favorites.includes(g.id))
     } else if (activeView === 'archived') {
-      result = result.filter(g => archived.includes(g.id))
+      result = result.filter(g => getStatus(g.id) === 'archived')
     } else {
-      // 'all' view excludes archived
-      result = result.filter(g => !archived.includes(g.id))
+      // 'all' view excludes hidden (archived/deleted)
+      result = result.filter(g => !isHidden(g.id))
     }
 
     // Filter by region
@@ -177,7 +167,7 @@ export default function DashboardContent({
     })
 
     return result
-  }, [grants, searchQuery, activeCategory, activeRegion, activeView, sortBy, favorites, dismissed, archived])
+  }, [grants, searchQuery, activeCategory, activeRegion, activeView, sortBy, favorites, dismissed, isHidden, getStatus])
 
   // Calculate upcoming deadlines
   const upcomingDeadlines = useMemo(() => {
@@ -311,6 +301,11 @@ export default function DashboardContent({
           >
             <Archive className="w-4 h-4" />
             Archived
+            {archivedCount > 0 && (
+              <span className="px-2 py-0.5 bg-earth-300 text-earth-700 rounded-full text-xs">
+                {archivedCount}
+              </span>
+            )}
           </button>
         </div>
 
@@ -472,6 +467,22 @@ export default function DashboardContent({
           onClose={() => setSelectedGrant(null)}
           onUpdateProgress={updateProgress}
           userId={userId}
+          grantStatus={getStatus(selectedGrant.id)}
+          onArchive={async (reason) => {
+            const result = await archiveGrant(selectedGrant.id, reason)
+            if (result.success) setSelectedGrant(null)
+            return result
+          }}
+          onDelete={async (reason) => {
+            const result = await deleteGrant(selectedGrant.id, reason)
+            if (result.success) setSelectedGrant(null)
+            return result
+          }}
+          onRestore={async () => {
+            const result = await restoreGrant(selectedGrant.id)
+            if (result.success) setSelectedGrant(null)
+            return result
+          }}
         />
       )}
     </div>

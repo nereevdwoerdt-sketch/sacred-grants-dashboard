@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { progressStages } from '@/lib/grants-data'
 import { format, parseISO, differenceInDays } from 'date-fns'
 import {
@@ -16,12 +16,26 @@ import {
   Save,
   Download,
   Bell,
-  Maximize2
+  Maximize2,
+  Archive,
+  Trash2,
+  RotateCcw,
+  MoreVertical
 } from 'lucide-react'
 import Link from 'next/link'
 import ShareButton from './ShareButton'
 
-export default function GrantModal({ grant, progress, onClose, onUpdateProgress, userId }) {
+export default function GrantModal({
+  grant,
+  progress,
+  onClose,
+  onUpdateProgress,
+  userId,
+  onArchive,
+  onDelete,
+  onRestore,
+  grantStatus = 'active' // 'active', 'archived', 'deleted'
+}) {
   const [status, setStatus] = useState(progress?.status || 'not-started')
   const [notes, setNotes] = useState(progress?.notes || '')
   const [amountRequested, setAmountRequested] = useState(progress?.amount_requested || '')
@@ -29,6 +43,85 @@ export default function GrantModal({ grant, progress, onClose, onUpdateProgress,
   const [reminderDate, setReminderDate] = useState(progress?.reminder_date || '')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [showActions, setShowActions] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [archiving, setArchiving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+
+  const modalRef = useRef(null)
+  const closeButtonRef = useRef(null)
+
+  // Focus trap and keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Close on Escape
+      if (e.key === 'Escape') {
+        if (showDeleteConfirm) {
+          setShowDeleteConfirm(false)
+        } else if (showActions) {
+          setShowActions(false)
+        } else {
+          onClose()
+        }
+      }
+
+      // Tab trap
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        const firstElement = focusableElements[0]
+        const lastElement = focusableElements[focusableElements.length - 1]
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault()
+          lastElement.focus()
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault()
+          firstElement.focus()
+        }
+      }
+    }
+
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden'
+
+    // Focus the close button on open
+    setTimeout(() => closeButtonRef.current?.focus(), 0)
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [onClose, showDeleteConfirm, showActions])
+
+  const handleArchive = async () => {
+    if (!onArchive) return
+    setArchiving(true)
+    await onArchive(grant.id)
+    setArchiving(false)
+    setShowActions(false)
+    onClose()
+  }
+
+  const handleDelete = async () => {
+    if (!onDelete) return
+    setDeleting(true)
+    await onDelete(grant.id)
+    setDeleting(false)
+    setShowDeleteConfirm(false)
+    setShowActions(false)
+    onClose()
+  }
+
+  const handleRestore = async () => {
+    if (!onRestore) return
+    setArchiving(true)
+    await onRestore(grant.id)
+    setArchiving(false)
+    onClose()
+  }
 
   // Calculate deadline info
   const getDeadlineInfo = () => {
@@ -110,30 +203,105 @@ END:VCALENDAR`
 
       {/* Modal */}
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col">
+        <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+          className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col"
+        >
           {/* Header */}
-          <div className={`p-6 border-b border-earth-200 urgency-${grant.urgency} flex-shrink-0`}>
+          <div className={`p-6 border-b border-earth-200 urgency-${grant.urgency} flex-shrink-0 ${grantStatus !== 'active' ? 'opacity-75' : ''}`}>
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className={`category-${grant.category} px-2 py-1 rounded text-sm font-medium`}>
                     {grant.entityType}
                   </span>
-                  {grant.urgency === 'urgent' && (
+                  {grant.urgency === 'urgent' && grantStatus === 'active' && (
                     <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-medium flex items-center gap-1">
                       <AlertTriangle className="w-4 h-4" />
                       Urgent
                     </span>
                   )}
+                  {grantStatus === 'archived' && (
+                    <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm font-medium flex items-center gap-1">
+                      <Archive className="w-4 h-4" />
+                      Archived
+                    </span>
+                  )}
+                  {grantStatus === 'deleted' && (
+                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-medium flex items-center gap-1">
+                      <Trash2 className="w-4 h-4" />
+                      Deleted
+                    </span>
+                  )}
                 </div>
-                <h2 className="text-2xl font-serif font-bold text-earth-900">{grant.name}</h2>
+                <h2 id="modal-title" className="text-2xl font-serif font-bold text-earth-900">{grant.name}</h2>
               </div>
-              <button
-                onClick={onClose}
-                className="p-2 text-earth-500 hover:text-earth-700 hover:bg-earth-100 rounded-lg transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Actions menu */}
+                {userId && (onArchive || onDelete || onRestore) && (
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowActions(!showActions)}
+                      className="p-2 text-earth-500 hover:text-earth-700 hover:bg-earth-100 rounded-lg transition-colors"
+                    >
+                      <MoreVertical className="w-6 h-6" />
+                    </button>
+                    {showActions && (
+                      <div className="absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg border border-earth-200 py-1 z-10 min-w-[160px]">
+                        {grantStatus === 'active' && onArchive && (
+                          <button
+                            onClick={handleArchive}
+                            disabled={archiving}
+                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-earth-700 hover:bg-earth-50"
+                          >
+                            <Archive className="w-4 h-4" />
+                            {archiving ? 'Archiving...' : 'Archive'}
+                          </button>
+                        )}
+                        {grantStatus === 'active' && onDelete && (
+                          <button
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            Delete
+                          </button>
+                        )}
+                        {(grantStatus === 'archived' || grantStatus === 'deleted') && onRestore && (
+                          <button
+                            onClick={handleRestore}
+                            disabled={archiving}
+                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-green-600 hover:bg-green-50"
+                          >
+                            <RotateCcw className="w-4 h-4" />
+                            {archiving ? 'Restoring...' : 'Restore'}
+                          </button>
+                        )}
+                        {grantStatus === 'archived' && onDelete && (
+                          <button
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            Delete permanently
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+                <button
+                  ref={closeButtonRef}
+                  onClick={onClose}
+                  aria-label="Close modal"
+                  className="p-2 text-earth-500 hover:text-earth-700 hover:bg-earth-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-sacred-500"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
             {/* Quick stats */}
@@ -351,33 +519,103 @@ END:VCALENDAR`
 
           {/* Footer */}
           <div className="p-6 border-t border-earth-200 bg-earth-50 flex flex-wrap gap-3 flex-shrink-0">
-            <a
-              href={grant.applyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-sacred-600 text-white rounded-lg hover:bg-sacred-700 transition-colors"
-            >
-              <ExternalLink className="w-5 h-5" />
-              Apply Now
-            </a>
-            <button
-              onClick={exportToCalendar}
-              className="flex items-center justify-center gap-2 px-4 py-3 border border-earth-300 rounded-lg hover:bg-earth-100 transition-colors"
-            >
-              <Calendar className="w-5 h-5" />
-              Add to Calendar
-            </button>
-            <ShareButton grant={grant} />
-            <Link
-              href={`/grants/${grant.id}`}
-              className="flex items-center justify-center gap-2 px-4 py-3 border border-earth-300 rounded-lg hover:bg-earth-100 transition-colors"
-            >
-              <Maximize2 className="w-5 h-5" />
-              Full Page
-            </Link>
+            {grantStatus === 'active' ? (
+              <>
+                <a
+                  href={grant.applyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-sacred-600 text-white rounded-lg hover:bg-sacred-700 transition-colors"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  Apply Now
+                </a>
+                <button
+                  onClick={exportToCalendar}
+                  className="flex items-center justify-center gap-2 px-4 py-3 border border-earth-300 rounded-lg hover:bg-earth-100 transition-colors"
+                >
+                  <Calendar className="w-5 h-5" />
+                  Add to Calendar
+                </button>
+                <ShareButton grant={grant} />
+                <Link
+                  href={`/grants/${grant.id}`}
+                  className="flex items-center justify-center gap-2 px-4 py-3 border border-earth-300 rounded-lg hover:bg-earth-100 transition-colors"
+                >
+                  <Maximize2 className="w-5 h-5" />
+                  Full Page
+                </Link>
+              </>
+            ) : (
+              <>
+                {onRestore && (
+                  <button
+                    onClick={handleRestore}
+                    disabled={archiving}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    <RotateCcw className="w-5 h-5" />
+                    {archiving ? 'Restoring...' : 'Restore Grant'}
+                  </button>
+                )}
+                {grantStatus === 'archived' && onDelete && (
+                  <button
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                    Delete
+                  </button>
+                )}
+                <Link
+                  href={`/grants/${grant.id}`}
+                  className="flex items-center justify-center gap-2 px-4 py-3 border border-earth-300 rounded-lg hover:bg-earth-100 transition-colors"
+                >
+                  <Maximize2 className="w-5 h-5" />
+                  Full Page
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setShowDeleteConfirm(false)} />
+          <div className="relative bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-red-100 rounded-full">
+                <Trash2 className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-earth-900">Delete Grant?</h3>
+                <p className="text-sm text-earth-500">This action cannot be undone</p>
+              </div>
+            </div>
+            <p className="text-earth-700 mb-6">
+              Are you sure you want to permanently delete <strong>{grant.name}</strong>?
+              This will remove it from your view forever.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="flex-1 px-4 py-2 border border-earth-300 rounded-lg hover:bg-earth-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {deleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

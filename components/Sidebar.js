@@ -15,12 +15,14 @@ import {
   CheckSquare,
   Download,
   TrendingUp,
-  Sparkles
+  Sparkles,
+  ClipboardList
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'All Grants', href: '/dashboard/grants', icon: FileText },
+  { name: 'Pending Review', href: '/dashboard/pending', icon: ClipboardList, badge: true },
   { name: 'New Discoveries', href: '/dashboard/discoveries', icon: Sparkles },
   { name: 'Calendar', href: '/dashboard/calendar', icon: Calendar },
   { name: 'Progress', href: '/dashboard/progress', icon: TrendingUp },
@@ -31,7 +33,14 @@ const navigation = [
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]
 
-export default function Sidebar({ user, profile }) {
+export default function Sidebar({ user, profile, grantCount = 0, totalPotential = 0, pendingCount = 0 }) {
+  // Format currency for display
+  const formatCurrency = (amount) => {
+    if (amount >= 1000000) {
+      return `€${(amount / 1000000).toFixed(1)}M+`
+    }
+    return `€${(amount / 1000).toFixed(0)}K+`
+  }
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -80,6 +89,11 @@ export default function Sidebar({ user, profile }) {
                 >
                   <item.icon className="w-5 h-5 mr-3" />
                   {item.name}
+                  {item.badge && pendingCount > 0 && (
+                    <span className="ml-auto px-2 py-0.5 text-xs font-bold bg-amber-500 text-white rounded-full">
+                      {pendingCount}
+                    </span>
+                  )}
                 </Link>
               )
             })}
@@ -88,8 +102,8 @@ export default function Sidebar({ user, profile }) {
           {/* Grants summary */}
           <div className="px-4 py-4 mx-4 mb-4 bg-[#4a3828] rounded-xl">
             <p className="text-xs text-[#d4cdb3] uppercase tracking-wider mb-2">Total Potential</p>
-            <p className="text-2xl font-serif font-bold text-[#D39D33]">€2.68M+</p>
-            <p className="text-xs text-[#d4cdb3] mt-1">78 grants tracked</p>
+            <p className="text-2xl font-serif font-bold text-[#D39D33]">{formatCurrency(totalPotential)}</p>
+            <p className="text-xs text-[#d4cdb3] mt-1">{grantCount} grants tracked</p>
           </div>
 
           {/* User section */}

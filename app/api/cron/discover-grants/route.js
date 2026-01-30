@@ -7,8 +7,8 @@ import { minimumRelevanceScore } from '@/lib/discovery-config'
 
 export const maxDuration = 300 // Allow up to 5 minutes for discovery
 
-const MAX_SOURCES = 8        // Sources to scrape per run
-const MAX_DEEP_SCRAPE = 15   // Grants to deep scrape for details
+const MAX_SOURCES = 50       // Scrape ALL enabled sources
+const MAX_DEEP_SCRAPE = 50   // Deep scrape more grants for details
 
 export async function GET(request) {
   // Verify the request is from Vercel Cron or has valid auth

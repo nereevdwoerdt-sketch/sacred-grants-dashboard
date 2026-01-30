@@ -9,8 +9,12 @@ import {
   Filter,
   Grid,
   List,
-  Download
+  Download,
+  Archive,
+  Eye,
+  EyeOff
 } from 'lucide-react'
+import { useGrantStatus } from '@/lib/useGrantStatus'
 
 export default function GrantsListPage({ grants, categories, progress, userId }) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -19,6 +23,19 @@ export default function GrantsListPage({ grants, categories, progress, userId })
   const [viewMode, setViewMode] = useState('grid')
   const [selectedGrant, setSelectedGrant] = useState(null)
   const [grantProgress, setGrantProgress] = useState({})
+  const [showArchived, setShowArchived] = useState(false)
+
+  // Grant status management (archive/delete)
+  const {
+    archiveGrant,
+    deleteGrant,
+    restoreGrant,
+    isHidden,
+    getStatus,
+    archivedCount,
+    deletedCount,
+    loading: statusLoading
+  } = useGrantStatus(userId)
 
   // Load progress from localStorage
   useEffect(() => {
@@ -32,6 +49,14 @@ export default function GrantsListPage({ grants, categories, progress, userId })
 
   const filteredGrants = useMemo(() => {
     let result = [...grants]
+
+    // Filter out hidden grants unless showing archived
+    if (!showArchived) {
+      result = result.filter(g => !isHidden(g.id))
+    } else {
+      // When showing archived, only show archived grants
+      result = result.filter(g => getStatus(g.id) === 'archived')
+    }
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
@@ -70,7 +95,7 @@ export default function GrantsListPage({ grants, categories, progress, userId })
     })
 
     return result
-  }, [grants, searchQuery, activeCategory, sortBy])
+  }, [grants, searchQuery, activeCategory, sortBy, showArchived, isHidden, getStatus])
 
   const updateProgress = async (grantId, updates) => {
     const existing = grantProgress[grantId]
@@ -160,8 +185,31 @@ export default function GrantsListPage({ grants, categories, progress, userId })
 
       <div className="flex items-center justify-between">
         <p className="text-earth-600">
-          Showing <span className="font-semibold">{filteredGrants.length}</span> grants
+          Showing <span className="font-semibold">{filteredGrants.length}</span> {showArchived ? 'archived' : ''} grants
         </p>
+
+        {archivedCount > 0 && (
+          <button
+            onClick={() => setShowArchived(!showArchived)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              showArchived
+                ? 'bg-amber-100 text-amber-700 hover:bg-amber-200'
+                : 'bg-earth-100 text-earth-600 hover:bg-earth-200'
+            }`}
+          >
+            {showArchived ? (
+              <>
+                <Eye className="w-4 h-4" />
+                Show active grants
+              </>
+            ) : (
+              <>
+                <Archive className="w-4 h-4" />
+                View archived ({archivedCount})
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Grants */}
@@ -224,6 +272,22 @@ export default function GrantsListPage({ grants, categories, progress, userId })
           onClose={() => setSelectedGrant(null)}
           onUpdateProgress={updateProgress}
           userId={userId}
+          grantStatus={getStatus(selectedGrant.id)}
+          onArchive={async (reason) => {
+            const result = await archiveGrant(selectedGrant.id, reason)
+            if (result.success) setSelectedGrant(null)
+            return result
+          }}
+          onDelete={async (reason) => {
+            const result = await deleteGrant(selectedGrant.id, reason)
+            if (result.success) setSelectedGrant(null)
+            return result
+          }}
+          onRestore={async () => {
+            const result = await restoreGrant(selectedGrant.id)
+            if (result.success) setSelectedGrant(null)
+            return result
+          }}
         />
       )}
     </div>
