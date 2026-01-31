@@ -78,7 +78,7 @@ export async function GET(request) {
 
     runLog.relevant_grants = detailedGrants.length
 
-    // Step 4: Save relevant grants to database
+    // Step 4: Save relevant grants to database (including raw text for later AI analysis)
     for (const grant of detailedGrants) {
       await supabase.from('discovered_grants').upsert({
         id: grant.id,
@@ -93,6 +93,7 @@ export async function GET(request) {
         deadline: grant.deadline,
         amount: grant.amount,
         eligibility: grant.eligibility,
+        raw_text: grant.rawText, // Raw scraped text for Claude Code analysis
         status: 'new',
         discovered_at: grant.discoveredAt,
         last_scraped: new Date().toISOString()
