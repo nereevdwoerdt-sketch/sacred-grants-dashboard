@@ -1,5 +1,6 @@
 // API Route for AI-Powered Grant Discovery
 // POST /api/discovery/ai-run
+// PROTECTED: Requires authentication or secret key
 
 import { NextResponse } from 'next/server'
 import { runAIDiscovery, analyzePageForGrants, assessGrantRelevance } from '@/lib/ai-discovery'
@@ -8,7 +9,48 @@ import { createClient } from '@/lib/supabase/server'
 
 export const maxDuration = 300 // 5 minutes max for Vercel
 
+// Authentication check
+async function isAuthorized(request) {
+  // Method 1: Check for API secret in header
+  const apiSecret = request.headers.get('x-discovery-secret')
+  if (apiSecret && apiSecret === process.env.DISCOVERY_API_SECRET) {
+    return { authorized: true, method: 'api-secret' }
+  }
+
+  // Method 2: Check for Vercel cron secret (for scheduled jobs)
+  const cronSecret = request.headers.get('authorization')
+  if (cronSecret && cronSecret === `Bearer ${process.env.CRON_SECRET}`) {
+    return { authorized: true, method: 'cron-secret' }
+  }
+
+  // Method 3: Check for logged-in Supabase user
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      return { authorized: true, method: 'supabase-user', user: user.email }
+    }
+  } catch (e) {
+    // Supabase auth failed, continue to next check
+  }
+
+  return { authorized: false }
+}
+
 export async function POST(request) {
+  // Check authorization
+  const auth = await isAuthorized(request)
+  if (!auth.authorized) {
+    console.log('🚫 Unauthorized AI discovery attempt blocked')
+    return NextResponse.json({
+      success: false,
+      error: 'Unauthorized. This endpoint requires authentication.',
+      hint: 'Login to dashboard, or provide x-discovery-secret header'
+    }, { status: 401 })
+  }
+
+  console.log(`✅ AI Discovery authorized via: ${auth.method}`)
+
   try {
     const body = await request.json().catch(() => ({}))
     const {
@@ -137,8 +179,17 @@ export async function GET() {
   return NextResponse.json({
     name: 'AI-Powered Grant Discovery',
     description: 'Uses Claude AI to intelligently find and analyze grants for Sacred Foundation',
+    security: {
+      status: 'PROTECTED',
+      methods: [
+        'Login to dashboard (Supabase session)',
+        'x-discovery-secret header (set DISCOVERY_API_SECRET env var)',
+        'Vercel cron secret (for scheduled jobs)'
+      ]
+    },
     endpoints: {
       'POST /api/discovery/ai-run': {
+        authentication: 'Required - see security.methods above',
         modes: {
           'quick': 'Fast scan of top 10 sources (2-3 minutes)',
           'full': 'Comprehensive scan of all sources + web search (10-15 minutes)',
@@ -159,6 +210,7 @@ export async function GET() {
       '✅ Assesses eligibility for Sacred entities',
       '📊 Scores grant relevance (1-10)',
       '💾 Saves to database for review'
-    ]
+    ],
+    cost_warning: 'Each run uses Claude API credits. Quick mode ~$0.10-0.50, Full mode ~$1-5'
   })
 }
