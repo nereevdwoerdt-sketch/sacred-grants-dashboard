@@ -46,6 +46,9 @@ function getRelevanceLevel(score) {
 const recentGrants = grants
   .filter(g => g.approved && g.isNew)
   .sort((a, b) => {
+    const aDate = a.addedDate || '2020-01-01'
+    const bDate = b.addedDate || '2020-01-01'
+    if (bDate !== aDate) return bDate.localeCompare(aDate)
     const aMusic = a.tags.includes('music') || a.tags.includes('musician') ? 1 : 0
     const bMusic = b.tags.includes('music') || b.tags.includes('musician') ? 1 : 0
     if (bMusic !== aMusic) return bMusic - aMusic
