@@ -1,17 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
-import { discoverGrants, deepScrapeGrant } from '@/lib/grant-discovery'
+import { discoverByRegionPriority, deepScrapeGrant } from '@/lib/grant-discovery'
 import { minimumRelevanceScore } from '@/lib/discovery-config'
 
 // This endpoint discovers new grants from various sources
-// Runs weekly via Vercel Cron
+// Runs weekly via Vercel Cron — scans NL first, then EU, then international
 
 export const maxDuration = 300 // Allow up to 5 minutes for discovery
 
-const MAX_SOURCES = 50       // Scrape ALL enabled sources
-const MAX_DEEP_SCRAPE = 50   // Deep scrape more grants for details
+const MAX_SOURCES_PER_REGION = 30  // Scan up to 30 sources per region
+const MAX_DEEP_SCRAPE = 60         // Deep scrape top candidates
 
 export async function GET(request) {
-  // Verify the request is from Vercel Cron or has valid auth
   const authHeader = request.headers.get('authorization')
   const cronSecret = (process.env.CRON_SECRET || '').trim()
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
@@ -27,19 +26,21 @@ export async function GET(request) {
     sources_scraped: 0,
     grants_found: 0,
     relevant_grants: 0,
+    region_breakdown: {},
     errors: [],
     started_at: new Date().toISOString()
   }
 
   try {
-    // Step 1: Discover grants from sources
-    const discoveryResults = await discoverGrants({
-      maxSources: MAX_SOURCES,
+    // Step 1: Discover grants region by region (NL → EU → Global)
+    const discoveryResults = await discoverByRegionPriority({
+      maxSourcesPerRegion: MAX_SOURCES_PER_REGION,
       maxGrantsPerSource: 30
     })
 
-    runLog.sources_scraped = discoveryResults.sourcesScraped
-    runLog.grants_found = discoveryResults.grantsFound
+    runLog.sources_scraped = discoveryResults.totalSourcesScraped
+    runLog.grants_found = discoveryResults.totalGrantsFound
+    runLog.region_breakdown = discoveryResults.regionBreakdown
     runLog.errors = discoveryResults.errors
 
     // Step 2: Filter out already-known grants
@@ -131,11 +132,13 @@ export async function GET(request) {
       sourcesScraped: runLog.sources_scraped,
       grantsFound: runLog.grants_found,
       newRelevantGrants: runLog.relevant_grants,
+      regionBreakdown: runLog.region_breakdown,
       errors: runLog.errors.length,
       topDiscoveries: detailedGrants.slice(0, 5).map(g => ({
         title: g.title,
         score: g.fullRelevanceScore || g.titleRelevanceScore,
-        source: g.sourceName
+        source: g.sourceName,
+        region: g.region,
       })),
       timestamp: new Date().toISOString()
     })
