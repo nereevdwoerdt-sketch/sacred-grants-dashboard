@@ -180,6 +180,12 @@ export default function DashboardContent({
       if (sortBy === 'name') {
         return a.name.localeCompare(b.name)
       }
+      if (sortBy === 'newest') {
+        const aDate = a.addedDate || '2020-01-01'
+        const bDate = b.addedDate || '2020-01-01'
+        if (bDate !== aDate) return bDate.localeCompare(aDate)
+        return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)
+      }
       return 0
     })
 
@@ -367,6 +373,7 @@ export default function DashboardContent({
               className="px-3 py-2 border border-earth-300 rounded-lg focus:ring-2 focus:ring-sacred-500 focus:border-sacred-500"
             >
               <option value="deadline">Sort by Deadline</option>
+              <option value="newest">Nieuwst toegevoegd</option>
               <option value="amount">Sort by Amount</option>
               <option value="name">Sort by Name</option>
             </select>

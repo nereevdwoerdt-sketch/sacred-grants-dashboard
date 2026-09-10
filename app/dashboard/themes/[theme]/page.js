@@ -64,6 +64,12 @@ export default function ThemePage() {
       }
       if (sortBy === 'amount') return (b.amount?.max || 0) - (a.amount?.max || 0)
       if (sortBy === 'name') return a.name.localeCompare(b.name)
+      if (sortBy === 'newest') {
+        const aDate = a.addedDate || '2020-01-01'
+        const bDate = b.addedDate || '2020-01-01'
+        if (bDate !== aDate) return bDate.localeCompare(aDate)
+        return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)
+      }
       return 0
     })
 
@@ -219,6 +225,7 @@ export default function ThemePage() {
             className="px-3 py-2 border border-earth-300 rounded-lg focus:ring-2 focus:ring-sacred-500"
           >
             <option value="deadline">Sorteer op deadline</option>
+            <option value="newest">Nieuwst toegevoegd</option>
             <option value="amount">Sorteer op bedrag</option>
             <option value="name">Sorteer op naam</option>
           </select>
