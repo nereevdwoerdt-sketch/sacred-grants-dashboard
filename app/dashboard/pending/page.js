@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { grants as allGrants, regions, grantCategories } from '@/lib/grants-data'
 import Link from 'next/link'
+import ReviewTabs from '@/components/ReviewTabs'
 
 // Get pending grants (not yet approved in static data)
 const pendingGrants = allGrants.filter(g => g.approved === false)
@@ -330,6 +331,8 @@ export default function PendingGrantsPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
+      <ReviewTabs />
+
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-serif font-bold text-[#312117] mb-2">
