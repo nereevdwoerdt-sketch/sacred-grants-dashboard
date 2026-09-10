@@ -1,7 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { grants } from '@/lib/grants-data'
+import GrantCard from '@/components/GrantCard'
+import GrantModal from '@/components/GrantModal'
 import {
   Sparkles,
   ExternalLink,
@@ -13,7 +16,10 @@ import {
   Calendar,
   Loader2,
   RefreshCw,
-  Filter
+  Filter,
+  Music,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react'
 
 const statusColors = {
@@ -36,13 +42,51 @@ function getRelevanceLevel(score) {
   return 'low'
 }
 
+const recentGrants = grants
+  .filter(g => g.approved && g.isNew)
+  .sort((a, b) => {
+    const aMusic = a.tags.includes('music') || a.tags.includes('musician') ? 1 : 0
+    const bMusic = b.tags.includes('music') || b.tags.includes('musician') ? 1 : 0
+    if (bMusic !== aMusic) return bMusic - aMusic
+    if (a.deadline === 'rolling' && b.deadline !== 'rolling') return 1
+    if (b.deadline === 'rolling' && a.deadline !== 'rolling') return -1
+    if (a.deadline === 'various') return 1
+    if (b.deadline === 'various') return -1
+    return new Date(a.deadline) - new Date(b.deadline)
+  })
+
+const tagLabels = {
+  music: '🎵 Muziek',
+  'performing-arts': '🎭 Podiumkunsten',
+  film: '🎬 Film',
+  documentary: '🎬 Documentaire',
+  indigenous: '🌿 Indigenous',
+  environment: '🌍 Natuur',
+  'social-enterprise': '🚀 Social Enterprise',
+  heritage: '🏛️ Erfgoed',
+  festival: '🎪 Festival',
+}
+
 export default function DiscoveriesPage() {
   const [discoveries, setDiscoveries] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('new')
   const [refreshing, setRefreshing] = useState(false)
   const [lastRun, setLastRun] = useState(null)
+  const [selectedGrant, setSelectedGrant] = useState(null)
+  const [showAllRecent, setShowAllRecent] = useState(false)
+  const [recentTagFilter, setRecentTagFilter] = useState('all')
   const supabase = createClient()
+
+  const filteredRecent = useMemo(() => {
+    if (recentTagFilter === 'all') return recentGrants
+    return recentGrants.filter(g =>
+      g.tags.includes(recentTagFilter) ||
+      g.grantCategory === recentTagFilter
+    )
+  }, [recentTagFilter])
+
+  const displayedRecent = showAllRecent ? filteredRecent : filteredRecent.slice(0, 9)
 
   useEffect(() => {
     loadDiscoveries()
@@ -179,6 +223,89 @@ export default function DiscoveriesPage() {
           </div>
         </div>
       )}
+
+      {/* Recently Added Grants */}
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div className="p-6 border-b border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-semibold text-[#312117] flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-[#D39D33]" />
+                Recent Toegevoegd
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                {recentGrants.length} nieuwe grants gevonden — muzieksubsidies bovenaan
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {[
+              { value: 'all', label: `Alles (${recentGrants.length})` },
+              { value: 'music', label: '🎵 Muziek' },
+              { value: 'performing-arts', label: '🎭 Podiumkunsten' },
+              { value: 'documentary', label: '🎬 Film' },
+              { value: 'indigenous', label: '🌿 Indigenous' },
+              { value: 'environment', label: '🌍 Natuur' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => { setRecentTagFilter(opt.value); setShowAllRecent(false) }}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                  recentTagFilter === opt.value
+                    ? 'bg-[#D39D33] text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="p-6">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {displayedRecent.map(grant => (
+              <GrantCard
+                key={grant.id}
+                grant={grant}
+                onClick={() => setSelectedGrant(grant)}
+                onUpdateProgress={() => {}}
+                isFavorite={false}
+                onToggleFavorite={() => {}}
+              />
+            ))}
+          </div>
+
+          {filteredRecent.length > 9 && (
+            <button
+              onClick={() => setShowAllRecent(!showAllRecent)}
+              className="mt-4 w-full flex items-center justify-center gap-2 py-3 text-sm font-medium text-[#D39D33] hover:bg-[#D39D33]/5 rounded-lg transition-colors"
+            >
+              {showAllRecent ? (
+                <>Minder tonen <ChevronUp className="w-4 h-4" /></>
+              ) : (
+                <>Alle {filteredRecent.length} tonen <ChevronDown className="w-4 h-4" /></>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {selectedGrant && (
+        <GrantModal
+          grant={selectedGrant}
+          onClose={() => setSelectedGrant(null)}
+          onUpdateProgress={() => {}}
+          userId="local-dev-user"
+        />
+      )}
+
+      {/* Crawler Discoveries */}
+      <h2 className="text-lg font-semibold text-[#312117] flex items-center gap-2 pt-4">
+        <RefreshCw className="w-5 h-5 text-gray-400" />
+        Crawler Discoveries
+      </h2>
 
       {/* Filter tabs */}
       <div className="flex gap-2 overflow-x-auto pb-2">
