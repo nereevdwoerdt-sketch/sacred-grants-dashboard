@@ -149,7 +149,7 @@ export default function AnbiReviewPage() {
           ANBI Register Review
         </h1>
         <p className="text-sm text-gray-600 mt-1">
-          53 subsidiegevende fondsen gevonden uit 54.927 ANBI-organisaties — beoordeel per stuk of ze relevant zijn voor Sacred
+          49 subsidiegevende fondsen gevonden uit 54.927 ANBI-organisaties — alle fondsen verrijkt met details
         </p>
       </div>
 
