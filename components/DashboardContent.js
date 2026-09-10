@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import { regions } from '@/lib/grants-data'
 import { useGrantStatus } from '@/lib/useGrantStatus'
+import { useLocalGrants, labels as defaultLabels } from '@/lib/useLocalGrants'
 import { GrantGridSkeleton, StatsGridSkeleton } from './GrantCardSkeleton'
 
 export default function DashboardContent({
@@ -53,6 +54,15 @@ export default function DashboardContent({
     archivedCount,
     loading: statusLoading
   } = useGrantStatus(userId)
+
+  const {
+    isFavorite: isLocalFavorite,
+    toggleFavorite: toggleLocalFavorite,
+    getNote,
+    setNote,
+    getLabels: getLocalLabels,
+    toggleLabel,
+  } = useLocalGrants()
 
   // Load progress, favorites, and dismissed from localStorage on mount
   useEffect(() => {
@@ -467,6 +477,7 @@ export default function DashboardContent({
             onUpdateProgress={updateProgress}
             isFavorite={favorites.includes(grant.id)}
             onToggleFavorite={toggleFavorite}
+            grantLabels={getLocalLabels(grant.id)}
           />
         ))}
       </div>
@@ -496,6 +507,12 @@ export default function DashboardContent({
           onUpdateProgress={updateProgress}
           userId={userId}
           grantStatus={getStatus(selectedGrant.id)}
+          isFavorite={isLocalFavorite(selectedGrant.id)}
+          onToggleFavorite={toggleLocalFavorite}
+          localNote={getNote(selectedGrant.id)}
+          onSetNote={setNote}
+          localLabels={getLocalLabels(selectedGrant.id)}
+          onToggleLabel={toggleLabel}
           onArchive={async (reason) => {
             const result = await archiveGrant(selectedGrant.id, reason)
             if (result.success) setSelectedGrant(null)

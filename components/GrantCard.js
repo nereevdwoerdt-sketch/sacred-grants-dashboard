@@ -13,8 +13,17 @@ import {
   Star
 } from 'lucide-react'
 import { progressStages, regions } from '@/lib/grants-data'
+import { labels as defaultLabels } from '@/lib/useLocalGrants'
 
-export default function GrantCard({ grant, progress, onClick, onUpdateProgress, isFavorite, onToggleFavorite }) {
+const labelDotColors = {
+  red: 'bg-red-500',
+  blue: 'bg-blue-500',
+  yellow: 'bg-yellow-500',
+  purple: 'bg-purple-500',
+  gray: 'bg-gray-400',
+}
+
+export default function GrantCard({ grant, progress, onClick, onUpdateProgress, isFavorite, onToggleFavorite, grantLabels = [] }) {
   const getDeadlineInfo = () => {
     if (grant.deadline === 'rolling' || grant.deadline === 'various') {
       return { text: grant.deadlineDisplay, urgent: false, daysLeft: null }
@@ -89,6 +98,21 @@ export default function GrantCard({ grant, progress, onClick, onUpdateProgress, 
               {grant.isNew && (
                 <span className="badge-new">
                   NEW
+                </span>
+              )}
+              {grantLabels.length > 0 && (
+                <span className="flex items-center gap-0.5">
+                  {grantLabels.map(labelId => {
+                    const label = defaultLabels.find(l => l.id === labelId)
+                    if (!label) return null
+                    return (
+                      <span
+                        key={labelId}
+                        className={`w-2.5 h-2.5 rounded-full ${labelDotColors[label.color]}`}
+                        title={label.name}
+                      />
+                    )
+                  })}
                 </span>
               )}
               {getStatusBadge()}

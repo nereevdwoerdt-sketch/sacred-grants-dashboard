@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { grants } from '@/lib/grants-data'
 import GrantCard from '@/components/GrantCard'
 import GrantModal from '@/components/GrantModal'
+import { useLocalGrants } from '@/lib/useLocalGrants'
 import {
   Sparkles,
   ExternalLink,
@@ -76,6 +77,7 @@ export default function DiscoveriesPage() {
   const [selectedGrant, setSelectedGrant] = useState(null)
   const [showAllRecent, setShowAllRecent] = useState(false)
   const [recentTagFilter, setRecentTagFilter] = useState('all')
+  const { isFavorite, toggleFavorite, getNote, setNote, getLabels, toggleLabel } = useLocalGrants()
   const supabase = createClient()
 
   const filteredRecent = useMemo(() => {
@@ -271,8 +273,9 @@ export default function DiscoveriesPage() {
                 grant={grant}
                 onClick={() => setSelectedGrant(grant)}
                 onUpdateProgress={() => {}}
-                isFavorite={false}
-                onToggleFavorite={() => {}}
+                isFavorite={isFavorite(grant.id)}
+                onToggleFavorite={toggleFavorite}
+                grantLabels={getLabels(grant.id)}
               />
             ))}
           </div>
@@ -298,6 +301,12 @@ export default function DiscoveriesPage() {
           onClose={() => setSelectedGrant(null)}
           onUpdateProgress={() => {}}
           userId="local-dev-user"
+          isFavorite={isFavorite(selectedGrant.id)}
+          onToggleFavorite={toggleFavorite}
+          localNote={getNote(selectedGrant.id)}
+          onSetNote={setNote}
+          localLabels={getLabels(selectedGrant.id)}
+          onToggleLabel={toggleLabel}
         />
       )}
 

@@ -7,6 +7,7 @@ import GrantCard from '@/components/GrantCard'
 import GrantModal from '@/components/GrantModal'
 import { grants, regions } from '@/lib/grants-data'
 import { themes, getTheme, getThemeGrants } from '@/lib/themes-config'
+import { useLocalGrants } from '@/lib/useLocalGrants'
 import { parseISO, differenceInDays, isAfter } from 'date-fns'
 import {
   ArrowLeft,
@@ -30,6 +31,7 @@ export default function ThemePage() {
   const [sortBy, setSortBy] = useState('deadline')
   const [selectedGrant, setSelectedGrant] = useState(null)
   const [copied, setCopied] = useState(false)
+  const { isFavorite, toggleFavorite, getNote, setNote, getLabels, toggleLabel } = useLocalGrants()
 
   const themeGrants = useMemo(() => {
     if (!theme) return []
@@ -255,8 +257,9 @@ export default function ThemePage() {
             grant={grant}
             onClick={() => setSelectedGrant(grant)}
             onUpdateProgress={() => {}}
-            isFavorite={false}
-            onToggleFavorite={() => {}}
+            isFavorite={isFavorite(grant.id)}
+            onToggleFavorite={toggleFavorite}
+            grantLabels={getLabels(grant.id)}
           />
         ))}
       </div>
@@ -273,6 +276,12 @@ export default function ThemePage() {
           onClose={() => setSelectedGrant(null)}
           onUpdateProgress={() => {}}
           userId="local-dev-user"
+          isFavorite={isFavorite(selectedGrant.id)}
+          onToggleFavorite={toggleFavorite}
+          localNote={getNote(selectedGrant.id)}
+          onSetNote={setNote}
+          localLabels={getLabels(selectedGrant.id)}
+          onToggleLabel={toggleLabel}
         />
       )}
     </div>

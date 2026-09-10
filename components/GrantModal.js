@@ -20,10 +20,30 @@ import {
   Archive,
   Trash2,
   RotateCcw,
-  MoreVertical
+  MoreVertical,
+  Star,
+  StickyNote,
+  Tag
 } from 'lucide-react'
 import Link from 'next/link'
 import ShareButton from './ShareButton'
+import { labels as defaultLabels } from '@/lib/useLocalGrants'
+
+const labelColorMap = {
+  red: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200',
+  blue: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200',
+  yellow: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200',
+  purple: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200',
+  gray: 'bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200',
+}
+
+const labelColorActive = {
+  red: 'bg-red-500 text-white border-red-500',
+  blue: 'bg-blue-500 text-white border-blue-500',
+  yellow: 'bg-yellow-500 text-white border-yellow-500',
+  purple: 'bg-purple-500 text-white border-purple-500',
+  gray: 'bg-gray-500 text-white border-gray-500',
+}
 
 export default function GrantModal({
   grant,
@@ -34,8 +54,15 @@ export default function GrantModal({
   onArchive,
   onDelete,
   onRestore,
-  grantStatus = 'active' // 'active', 'archived', 'deleted'
+  grantStatus = 'active',
+  isFavorite = false,
+  onToggleFavorite,
+  localNote = '',
+  onSetNote,
+  localLabels = [],
+  onToggleLabel,
 }) {
+  const [localNoteText, setLocalNoteText] = useState(localNote)
   const [status, setStatus] = useState(progress?.status || 'not-started')
   const [notes, setNotes] = useState(progress?.notes || '')
   const [amountRequested, setAmountRequested] = useState(progress?.amount_requested || '')
@@ -240,6 +267,20 @@ END:VCALENDAR`
                 <h2 id="modal-title" className="text-2xl font-serif font-bold text-earth-900">{grant.name}</h2>
               </div>
               <div className="flex items-center gap-2">
+                {/* Favorite button */}
+                {onToggleFavorite && (
+                  <button
+                    onClick={() => onToggleFavorite(grant.id)}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isFavorite
+                        ? 'text-[#D39D33] hover:bg-[#D39D33]/10'
+                        : 'text-earth-400 hover:text-[#D39D33] hover:bg-earth-100'
+                    }`}
+                    title={isFavorite ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+                  >
+                    <Star className={`w-6 h-6 ${isFavorite ? 'fill-current' : ''}`} />
+                  </button>
+                )}
                 {/* Actions menu */}
                 {userId && (onArchive || onDelete || onRestore) && (
                   <div className="relative">
@@ -387,6 +428,51 @@ END:VCALENDAR`
                   Action Required
                 </h3>
                 <p className="text-earth-700 font-medium">{grant.actionRequired}</p>
+              </section>
+            )}
+
+            {/* Labels & Notes */}
+            {(onToggleLabel || onSetNote) && (
+              <section className="mb-6 p-4 bg-white rounded-lg border border-[#D39D33]/30">
+                <h3 className="text-sm font-semibold text-[#312117] uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <Tag className="w-4 h-4 text-[#D39D33]" />
+                  Categorieën & Notities
+                </h3>
+
+                {onToggleLabel && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {defaultLabels.map(label => {
+                      const isActive = localLabels.includes(label.id)
+                      return (
+                        <button
+                          key={label.id}
+                          onClick={() => onToggleLabel(grant.id, label.id)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                            isActive
+                              ? labelColorActive[label.color]
+                              : labelColorMap[label.color]
+                          }`}
+                        >
+                          {label.emoji} {label.name}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {onSetNote && (
+                  <div>
+                    <textarea
+                      value={localNoteText}
+                      onChange={(e) => setLocalNoteText(e.target.value)}
+                      onBlur={() => onSetNote(grant.id, localNoteText)}
+                      placeholder="Schrijf een notitie... (bijv. contactpersoon, idee, deadline reminder)"
+                      rows={3}
+                      className="w-full px-3 py-2 border border-earth-300 rounded-lg focus:ring-2 focus:ring-[#D39D33] focus:border-[#D39D33] text-sm"
+                    />
+                    <p className="text-xs text-earth-400 mt-1">Wordt automatisch opgeslagen</p>
+                  </div>
+                )}
               </section>
             )}
 
