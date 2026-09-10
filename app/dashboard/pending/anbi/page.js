@@ -338,8 +338,18 @@ export default function AnbiReviewPage() {
                     </span>
                   </div>
 
-                  {/* Keyword matches */}
-                  <div className="flex flex-wrap gap-1 mt-2">
+                  {/* Grant-giver badge + keyword matches */}
+                  <div className="flex flex-wrap items-center gap-1 mt-2">
+                    {fund.isGrantGiver === true && (
+                      <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs rounded font-medium">
+                        Geeft subsidies
+                      </span>
+                    )}
+                    {fund.isGrantGiver === false && (
+                      <span className="px-1.5 py-0.5 bg-red-50 text-red-500 text-xs rounded">
+                        Geen subsidiegever
+                      </span>
+                    )}
                     {fund.matches.split(',').map((m, i) => (
                       <span key={i} className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
                         {m.trim()}
@@ -347,10 +357,47 @@ export default function AnbiReviewPage() {
                     ))}
                   </div>
 
+                  {/* Short description if enriched */}
+                  {fund.fundsWhat && (
+                    <p className="text-xs text-gray-600 mt-1.5 line-clamp-2">
+                      {fund.fundsWhat}
+                    </p>
+                  )}
+
                   {/* Expanded details */}
                   {isExpanded && (
                     <div className="mt-3 pt-3 border-t border-gray-100 text-sm space-y-2">
-                      <div className="flex items-center gap-2">
+                      {fund.fundsWhat && (
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase">Wat ze subsidiëren</span>
+                          <p className="text-gray-700 mt-0.5">{fund.fundsWhat}</p>
+                        </div>
+                      )}
+                      {fund.amounts && (
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase">Bedragen</span>
+                          <p className="text-gray-700 mt-0.5">{fund.amounts}</p>
+                        </div>
+                      )}
+                      {fund.howToApply && (
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase">Hoe aanvragen</span>
+                          <p className="text-gray-700 mt-0.5">{fund.howToApply}</p>
+                        </div>
+                      )}
+                      {fund.deadlines && (
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase">Deadlines</span>
+                          <p className="text-gray-700 mt-0.5">{fund.deadlines}</p>
+                        </div>
+                      )}
+                      {fund.eligibility && (
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase">Eligibility</span>
+                          <p className="text-gray-700 mt-0.5">{fund.eligibility}</p>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 pt-1">
                         <Globe className="w-4 h-4 text-gray-400" />
                         <a
                           href={fund.website}
