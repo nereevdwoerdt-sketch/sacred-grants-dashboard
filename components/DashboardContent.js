@@ -26,6 +26,7 @@ export default function DashboardContent({
   grants,
   summary,
   categories,
+  grantCategories = [],
   progress,
   setupSteps,
   unreadNotifications,
@@ -33,6 +34,7 @@ export default function DashboardContent({
 }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
+  const [activeGrantCategory, setActiveGrantCategory] = useState('all')
   const [activeRegion, setActiveRegion] = useState('all')
   const [activeView, setActiveView] = useState('all') // 'all', 'review', 'favorites', 'archived'
   const [sortBy, setSortBy] = useState('deadline')
@@ -132,7 +134,7 @@ export default function DashboardContent({
       )
     }
 
-    // Filter by category
+    // Filter by category (entity type)
     if (activeCategory !== 'all') {
       if (activeCategory === 'urgent') {
         result = result.filter(g => g.urgency === 'urgent')
@@ -146,6 +148,11 @@ export default function DashboardContent({
       } else {
         result = result.filter(g => g.category === activeCategory)
       }
+    }
+
+    // Filter by grant category (what the grant is for)
+    if (activeGrantCategory !== 'all') {
+      result = result.filter(g => g.grantCategory === activeGrantCategory)
     }
 
     // Sort
@@ -167,7 +174,7 @@ export default function DashboardContent({
     })
 
     return result
-  }, [grants, searchQuery, activeCategory, activeRegion, activeView, sortBy, favorites, dismissed, isHidden, getStatus])
+  }, [grants, searchQuery, activeCategory, activeGrantCategory, activeRegion, activeView, sortBy, favorites, dismissed, isHidden, getStatus])
 
   // Calculate upcoming deadlines
   const upcomingDeadlines = useMemo(() => {
@@ -403,6 +410,26 @@ export default function DashboardContent({
             Open Now
           </button>
         </div>
+
+        {/* Grant category filters (what the grant is for) */}
+        {grantCategories.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-earth-100">
+            <span className="text-sm text-earth-500 self-center mr-2">Focus:</span>
+            {grantCategories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveGrantCategory(cat.id)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  activeGrantCategory === cat.id
+                    ? 'bg-sacred-600 text-white'
+                    : 'bg-earth-100 text-earth-700 hover:bg-earth-200'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Results count */}
@@ -414,10 +441,11 @@ export default function DashboardContent({
           {activeView === 'archived' && ' in archive'}
           {activeRegion !== 'all' && ` in ${regions.find(r => r.id === activeRegion)?.name}`}
         </p>
-        {(activeCategory !== 'all' || activeRegion !== 'all') && (
+        {(activeCategory !== 'all' || activeGrantCategory !== 'all' || activeRegion !== 'all') && (
           <button
             onClick={() => {
               setActiveCategory('all')
+              setActiveGrantCategory('all')
               setActiveRegion('all')
               setSearchQuery('')
             }}
