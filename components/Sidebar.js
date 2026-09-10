@@ -16,7 +16,8 @@ import {
   Download,
   TrendingUp,
   Sparkles,
-  ClipboardList
+  ClipboardList,
+  Palette
 } from 'lucide-react'
 
 const navigation = [
@@ -24,6 +25,7 @@ const navigation = [
   { name: 'All Grants', href: '/dashboard/grants', icon: FileText },
   { name: 'Pending Review', href: '/dashboard/pending', icon: ClipboardList, badge: true },
   { name: 'New Discoveries', href: '/dashboard/discoveries', icon: Sparkles },
+  { name: 'Themes', href: '/dashboard/themes', icon: Palette },
   { name: 'Calendar', href: '/dashboard/calendar', icon: Calendar },
   { name: 'Progress', href: '/dashboard/progress', icon: TrendingUp },
   { name: 'Setup Steps', href: '/dashboard/setup', icon: CheckSquare },
