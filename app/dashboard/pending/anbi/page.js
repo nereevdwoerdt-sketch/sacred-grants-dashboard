@@ -149,7 +149,7 @@ export default function AnbiReviewPage() {
           ANBI Register Review
         </h1>
         <p className="text-sm text-gray-600 mt-1">
-          388 potentiële fondsen gevonden uit 54.927 ANBI-organisaties — beoordeel per stuk of ze relevant zijn
+          53 subsidiegevende fondsen gevonden uit 54.927 ANBI-organisaties — beoordeel per stuk of ze relevant zijn voor Sacred
         </p>
       </div>
 
@@ -226,18 +226,6 @@ export default function AnbiReviewPage() {
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#D39D33] focus:ring-1 focus:ring-[#D39D33]"
           />
         </div>
-
-        {/* Grant-giver filter */}
-        <select
-          value={grantGiverFilter}
-          onChange={e => setGrantGiverFilter(e.target.value)}
-          className="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#D39D33]"
-        >
-          <option value="all">Alle fondsen</option>
-          <option value="yes">Geeft subsidies ({anbiFunds.filter(f => f.isGrantGiver === true).length})</option>
-          <option value="no">Geen subsidiegever ({anbiFunds.filter(f => f.isGrantGiver === false).length})</option>
-          <option value="unknown">Onbekend ({anbiFunds.filter(f => f.isGrantGiver !== true && f.isGrantGiver !== false).length})</option>
-        </select>
 
         {/* Sort */}
         <select

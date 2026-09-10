@@ -6,7 +6,7 @@ import { ClipboardList, Building2 } from 'lucide-react'
 
 const tabs = [
   { href: '/dashboard/pending', label: 'Grants Review', icon: ClipboardList },
-  { href: '/dashboard/pending/anbi', label: 'ANBI Fondsen', icon: Building2, badge: 388 },
+  { href: '/dashboard/pending/anbi', label: 'ANBI Fondsen', icon: Building2, badge: 53 },
 ]
 
 export default function ReviewTabs() {
