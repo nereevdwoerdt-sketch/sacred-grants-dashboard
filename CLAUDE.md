@@ -24,13 +24,20 @@
 - **Phone:** (03) 9120 7700
 - **Website:** sacredtaste.com
 
-**Europe (In Progress):**
-- **Foundation:** Sacred Foundation EU
-- **Legal Form:** Stichting (Dutch Foundation)
-- **Municipality:** Weststellingwerf, Netherlands
-- **Status:** In formation - ANBI status planned
+**Europe (Active):**
+- **Foundation:** Stichting Sacred Foundation
+- **Legal Form:** Stichting (Dutch Foundation, non-profit)
+- **KvK Number:** 42058363
+- **RSIN:** 869516668
+- **Registered Address:** Molenburen 6, 8391 VJ Noordwolde, Netherlands
+- **Statutory Seat:** Municipality of Weststellingwerf
+- **Incorporated:** 12 May 2026
+- **SBI Activity Code:** 94993 — support foundations
+- **Financial Year:** Calendar year
+- **ANBI Status:** Not yet applied for
 - **Board Chair:** Neree van der Woerdt
-- **Board Member:** Daniel Koch (upon appointment)
+- **Board Member:** Daniel Koch
+- **Statutory Objective:** Supporting indigenous communities, in particular but not limited to the Asháninka community in Peru, as well as promoting nature conservation, culture, wellbeing and education.
 
 ### What Sacred Does
 
@@ -95,18 +102,27 @@
 | Australian Pty Ltd grants | Sacred Taste Pty Ltd | ✅ Yes |
 | Food/grocery innovation | Sacred Taste Pty Ltd | ✅ Yes (processes cacao in AU) |
 | Export grants (EMDG) | Sacred Taste Pty Ltd | ✅ Yes |
-| Dutch Stichting grants | Sacred Foundation EU | ⏳ When formed |
+| Dutch Stichting grants | Stichting Sacred Foundation | ✅ Yes (since May 2026) |
+| Dutch private trusts (vermogensfondsen) | Stichting Sacred Foundation | ⏳ Needs ANBI status |
+| EU cultural/youth programmes | Stichting Sacred Foundation | ✅ Yes |
 | NFP/DGR grants | - | ❌ Need NFP status |
 | Individual artist grants | Team members | ✅ Possible |
 
-### Key Grant Angles
+### Key Grant Angles (6 Search Domains)
 
-1. **Food Innovation** - Cacao processing, healthy alternatives to alcohol
-2. **Cultural Diplomacy** - AU-Peru connection, Ashaninka partnership
-3. **Mental Health** - Ceremonies for wellbeing, loneliness epidemic
-4. **Sustainability** - Rainforest protection, ethical sourcing
-5. **Indigenous Rights** - Land titles, cultural preservation
-6. **Documentary** - Ashaninka story, Dan's Amazon journey
+1. **Talent Development & Music Production** - Emerging artists, production costs, mentoring, debut funding
+2. **Film, Documentary & Cross-media** - Ashaninka documentary, live registration, cross-media work
+3. **Indigenous Rights & Cultural Heritage** - Asháninka partnership, UN Equator Prize 2019, land rights, cultural exchange
+4. **Rainforest, Biodiversity & Climate** - Forest conservation, agroforestry, nature-based solutions
+5. **Wellbeing, Alcohol-free & Social Connection** - Cacao ceremonies, loneliness, youth mental health, sober curious
+6. **Education, Awareness & Fair Supply Chains** - Schools, deforestation education, fair trade, supply chain transparency
+
+### Eligibility Filters (check before investing time)
+
+1. **ANBI required?** → Park in separate list (not yet applied)
+2. **Track record / audited accounts?** → No completed financial year yet (first: calendar 2026)
+3. **Retroactive funding?** → Most don't. Check lead time (3-6 months common)
+4. **Independent board member?** → Flag, don't discard (likely adding third director)
 
 ---
 
@@ -175,5 +191,5 @@ Push to GitHub main → Vercel auto-deploys.
 
 ---
 
-*Last updated: 2026-01-29*
-*Source: Sacred_Foundation_Bible_v3.docx*
+*Last updated: 2026-09-10*
+*Source: Sacred_Foundation_Bible_v3.docx + September 2026 Stichting Strategy Document*
