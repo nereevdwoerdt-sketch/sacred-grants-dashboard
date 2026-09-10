@@ -69,6 +69,7 @@ export default function AnbiReviewPage() {
   const [search, setSearch] = useState('')
   const [expandedRsin, setExpandedRsin] = useState(null)
   const [sortBy, setSortBy] = useState('score')
+  const [grantGiverFilter, setGrantGiverFilter] = useState('all')
 
   const stats = useMemo(() => {
     const s = { total: anbiFunds.length, pending: 0, approved: 0, rejected: 0, maybe: 0 }
@@ -101,6 +102,14 @@ export default function AnbiReviewPage() {
       list = list.filter(f => getStatus(f.rsin) === statusFilter)
     }
 
+    if (grantGiverFilter === 'yes') {
+      list = list.filter(f => f.isGrantGiver === true)
+    } else if (grantGiverFilter === 'no') {
+      list = list.filter(f => f.isGrantGiver === false)
+    } else if (grantGiverFilter === 'unknown') {
+      list = list.filter(f => f.isGrantGiver !== true && f.isGrantGiver !== false)
+    }
+
     if (search) {
       const q = search.toLowerCase()
       list = list.filter(f =>
@@ -120,7 +129,7 @@ export default function AnbiReviewPage() {
     }
 
     return list
-  }, [categoryFilter, statusFilter, search, sortBy, decisions])
+  }, [categoryFilter, statusFilter, grantGiverFilter, search, sortBy, decisions])
 
   const statusStyles = {
     approved: 'bg-green-100 text-green-800 border-green-300',
@@ -217,6 +226,18 @@ export default function AnbiReviewPage() {
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#D39D33] focus:ring-1 focus:ring-[#D39D33]"
           />
         </div>
+
+        {/* Grant-giver filter */}
+        <select
+          value={grantGiverFilter}
+          onChange={e => setGrantGiverFilter(e.target.value)}
+          className="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#D39D33]"
+        >
+          <option value="all">Alle fondsen</option>
+          <option value="yes">Geeft subsidies ({anbiFunds.filter(f => f.isGrantGiver === true).length})</option>
+          <option value="no">Geen subsidiegever ({anbiFunds.filter(f => f.isGrantGiver === false).length})</option>
+          <option value="unknown">Onbekend ({anbiFunds.filter(f => f.isGrantGiver !== true && f.isGrantGiver !== false).length})</option>
+        </select>
 
         {/* Sort */}
         <select
@@ -348,6 +369,16 @@ export default function AnbiReviewPage() {
                     {fund.isGrantGiver === false && (
                       <span className="px-1.5 py-0.5 bg-red-50 text-red-500 text-xs rounded">
                         Geen subsidiegever
+                      </span>
+                    )}
+                    {fund.autoClassified === 'unreachable' && (
+                      <span className="px-1.5 py-0.5 bg-gray-100 text-gray-400 text-xs rounded">
+                        Website onbereikbaar
+                      </span>
+                    )}
+                    {fund.autoClassified === 'unclear' && !fund.isGrantGiver && (
+                      <span className="px-1.5 py-0.5 bg-yellow-50 text-yellow-600 text-xs rounded">
+                        Onduidelijk
                       </span>
                     )}
                     {fund.matches.split(',').map((m, i) => (
